@@ -1,5 +1,8 @@
 import React,{ useState } from "react";
-  import {Button,Form }from "react-bootstrap";
+import {Button,Form }from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../Actions/usersAction";
+
 
 
  function EditUserForm(props) {
@@ -8,13 +11,17 @@ import React,{ useState } from "react";
     const [email,setEmail]= useState(props.userInfo.email);
     const [mobile,setMobile]= useState(props.userInfo.mobile);
     const [password,setPassword]= useState(props.userInfo.password);
+    const dispatch = useDispatch();
+
 
 
    
 
     const handleSubmit =(e)=>{
       e.preventDefault();
-      props.updateUser(props.userInfo.id,{username,email,mobile,password});
+      // props.updateUser(props.userInfo.id,{username,email,mobile,password});
+      let userInfo ={id:props.userInfo.id,username,email,mobile,password};
+     dispatch(updateUser(userInfo));
       setUsername("");
       setEmail("");
       setMobile("");

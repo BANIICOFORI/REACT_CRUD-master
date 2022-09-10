@@ -2,6 +2,9 @@ import React,{ useState } from "react";
 import { Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from"react-bootstrap/Form";
+import {addUser, newUser} from "../Actions/usersAction";
+import {connect,useDispatch} from "react-redux";
+import {v4 as uuid} from "uuid";
 
 
  function AddUsersForm(props) {
@@ -10,12 +13,12 @@ import Form from"react-bootstrap/Form";
     const [mobile,setMobile]= useState(" ");
     const [password,setPassword]= useState(" ");
 
-
-   
-
+   const dispatch = useDispatch();
     const handleSubmit =(e)=>{
       e.preventDefault();
-      props.newUser({username,email,mobile,password});
+      // props.newUser({username,email,mobile,password});
+      let userInfo = {id:uuid(), username,email,mobile,password};
+      dispatch(addUser(userInfo));
       setUsername("");
       setEmail("");
       setMobile("");
