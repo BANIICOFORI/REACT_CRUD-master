@@ -1,35 +1,48 @@
 import React,{ useState } from "react";
-import { Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from"react-bootstrap/Form";
-import {addUser, newUser} from "../Actions/usersAction";
-import {connect,useDispatch} from "react-redux";
+// import {addUser, newUser} from "../Actions/usersAction";
+// import {connect,useDispatch} from "react-redux";
 import {v4 as uuid} from "uuid";
+import { doc, setDoc, serverTimestamp, timestamp } from "firebase/firestore";
+import {db} from '../Firebase/Config';
+
 
 
  function AddUsersForm(props) {
     const [username,setUsername]= useState(" ");
     const [email,setEmail]= useState(" ");
     const [mobile,setMobile]= useState(" ");
-    const [password,setPassword]= useState(" ");
+    const [address,setAddress]= useState(" ");
 
-   const dispatch = useDispatch();
-    const handleSubmit =(e)=>{
+   //const dispatch = useDispatch();
+    const handleSubmit = async(e) => { 
       e.preventDefault();
       // props.newUser({username,email,mobile,password});
-      let userInfo = {id:uuid(), username,email,mobile,password};
-      dispatch(addUser(userInfo));
+      let userInfo = {
+         id:uuid(),
+         username,
+         email,
+         mobile,
+         address,
+         timestamp: serverTimestamp(),
+      };
+      try {
+			await setDoc(doc(db, "Users_TB", userInfo.id), userInfo);
+		} catch (e) {
+			console.log(e);
+		}
       setUsername("");
       setEmail("");
       setMobile("");
-      setPassword("");
+      setAddress("");
   };
         
   return (
     <Form>
-      <Row>
+      
       <Form.Group className="" controlId="formBasicEmail">
-        <Form.Label>Username</Form.Label>
+        <Form.Label>Fullname</Form.Label>
         <Form.Control type="username"
          placeholder="Enter your username"
          value={username} 
@@ -49,8 +62,8 @@ import {v4 as uuid} from "uuid";
          }}
          />
       </Form.Group>
-      </Row>
-      <Row>
+      
+      
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Mobile</Form.Label>
         <Form.Control type="mobile"
@@ -63,17 +76,17 @@ import {v4 as uuid} from "uuid";
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password"
-         placeholder="Enter your password"
-         value={password} 
+        <Form.Label>Address</Form.Label>
+        <Form.Control type="address"
+         placeholder="Enter your address"
+         value={address} 
          onChange={(e) => {
-            setPassword(e.target.value)
+            setAddress(e.target.value)
          }}
          />
       </Form.Group>
 
-      </Row>
+      
       <Button onClick={handleSubmit} variant="primary" type="submit">Submit</Button>
     </Form>
 

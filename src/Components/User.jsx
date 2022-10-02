@@ -25,7 +25,7 @@ function User(props) {
         </Modal.Header>
         <Modal.Body>
           <EditUserForm
-            updateUser={props.updateUser}
+            // updateUser={props.updateUser}
             hide={handleClose}
             userInfo={props.userInfo}
           />
@@ -35,12 +35,12 @@ function User(props) {
       <Col md={4}>
         <Card>
           <Card.Body>
-            <Card.Title>Username : {props.userInfo.username}</Card.Title>
+            <Card.Title>Fullname : {props.userInfo.username}</Card.Title>
             <Card.Subtitle className="mb-3 text-muted">
               Email :{props.userInfo.email}
             </Card.Subtitle>
             <Card.Text>Mobile : {props.userInfo.mobile}</Card.Text>
-            <Card.Text>Password : {props.userInfo.password}</Card.Text>
+            <Card.Text>Address : {props.userInfo.address}</Card.Text>
             <Button variant="primary" onClick={handleShow}>
               Edit
             </Button>

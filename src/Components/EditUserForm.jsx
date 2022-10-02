@@ -2,30 +2,24 @@ import React,{ useState } from "react";
 import {Button,Form }from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../Actions/usersAction";
+import { doc, setDoc, serverTimestamp, timestamp } from "firebase/firestore";
 
-
-
- function EditUserForm(props) {
-
+function EditUserForm(props) {
     const [username,setUsername]= useState(props.userInfo.username);
     const [email,setEmail]= useState(props.userInfo.email);
     const [mobile,setMobile]= useState(props.userInfo.mobile);
-    const [password,setPassword]= useState(props.userInfo.password);
+    const [address,setAddress]= useState(props.userInfo.address);
     const dispatch = useDispatch();
-
-
-
-   
 
     const handleSubmit =(e)=>{
       e.preventDefault();
       // props.updateUser(props.userInfo.id,{username,email,mobile,password});
-      let userInfo ={id:props.userInfo.id,username,email,mobile,password};
+      let userInfo ={id:props.userInfo.id,username,email,mobile,address,timestamp: serverTimestamp()};
      dispatch(updateUser(userInfo));
       setUsername("");
       setEmail("");
       setMobile("");
-      setPassword("");
+      setAddress("");
       props.hide();
   };
         
@@ -63,12 +57,12 @@ import { updateUser } from "../Actions/usersAction";
       </Form.Group>
       
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password"
-         placeholder="Enter your password"
-         value={password} 
+        <Form.Label>Address</Form.Label>
+        <Form.Control type="address"
+         placeholder="Enter your address"
+         value={address} 
          onChange={(e) => {
-            setPassword(e.target.value)
+            setAddress(e.target.value)
          }}
          />
       </Form.Group>

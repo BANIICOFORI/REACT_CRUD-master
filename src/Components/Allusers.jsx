@@ -1,6 +1,6 @@
 import { Container, Row } from "react-bootstrap";
 import User from "./User";
-import { connect, useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 
 function Allusers(props) {
 	const { users } = useSelector((state) => {
@@ -12,15 +12,15 @@ function Allusers(props) {
 			<Container>
 				<Row>
 					{/* //{props.userData.map((item, index) => */}
-					{users.map((users) => {
+					{users.map((item,index) => {
 						return (
 							<User
-								// key={index}
-								// userInfo={item}
-								key={users.id}
-								userInfo={users}
+								key={index}
+								 userInfo={item}
+								// key={users.id}
+								//userInfo={users}
 								deleteUser={props.deleteUser}
-								updateUser={props.updateUser}
+								 updateUser={props.updateUser}
 							/>
 						);
 					})}
