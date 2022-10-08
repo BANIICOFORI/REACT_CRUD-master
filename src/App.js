@@ -10,6 +10,7 @@ import {
 	query,
 	getDocs,
 	onSnapshot,
+  doc,
 } from "firebase/firestore";
 import { db } from "./Firebase/Config";
 import { addUser } from "./Actions/usersAction";
@@ -24,7 +25,9 @@ function App() {
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const users = [];
         querySnapshot.forEach((doc) => {
-          users.push(doc.data());
+          
+          users.push({...doc.data(),id:doc.id});
+         // users.push(doc.data());
         });
         dispatch(addUser(users));
         console.log(users);

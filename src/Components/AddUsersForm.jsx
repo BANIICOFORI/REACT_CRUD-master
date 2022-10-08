@@ -1,14 +1,9 @@
 import React,{ useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from"react-bootstrap/Form";
-// import {addUser, newUser} from "../Actions/usersAction";
-// import {connect,useDispatch} from "react-redux";
 import {v4 as uuid} from "uuid";
 import { doc, setDoc, serverTimestamp, timestamp } from "firebase/firestore";
 import {db} from '../Firebase/Config';
-
-
-
  function AddUsersForm(props) {
     const [username,setUsername]= useState(" ");
     const [email,setEmail]= useState(" ");

@@ -2,7 +2,9 @@ import React,{ useState } from "react";
 import {Button,Form }from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../Actions/usersAction";
-import { doc, setDoc, serverTimestamp, timestamp } from "firebase/firestore";
+import {db} from '../Firebase/Config'
+import { doc, setDoc, updateDoc, serverTimestamp, timestamp } from "firebase/firestore";
+
 
 function EditUserForm(props) {
     const [username,setUsername]= useState(props.userInfo.username);
@@ -11,11 +13,21 @@ function EditUserForm(props) {
     const [address,setAddress]= useState(props.userInfo.address);
     const dispatch = useDispatch();
 
-    const handleSubmit =(e)=>{
+    const handleSubmit  = async(e)=>{
       e.preventDefault();
       // props.updateUser(props.userInfo.id,{username,email,mobile,password});
       let userInfo ={id:props.userInfo.id,username,email,mobile,address,timestamp: serverTimestamp()};
-     dispatch(updateUser(userInfo));
+    try {
+      //dispatch(updateUser(userInfo));
+      const updateRef = doc(db, "Users_TB", userInfo.id);
+
+      // Set the "capital" field of the city 'DC'
+        await updateDoc(updateRef,userInfo);
+    } catch (e) {
+      console.log(e);
+    }
+      
+
       setUsername("");
       setEmail("");
       setMobile("");
